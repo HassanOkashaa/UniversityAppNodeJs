@@ -1,15 +1,22 @@
 const { Pool } = require("pg");
-require("dotenv").config();
 
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-  // ssl: {
-  //   rejectUnauthorized: false,
-  // },
+  user: process.env.DB_USER || "hassan",
+  host:
+    process.env.DB_HOST ||
+    "universitynodeapp-db.c9iaqc08yess.us-east-1.rds.amazonaws.com",
+  database: process.env.DB_NAME || "universitynodeapp",
+  password: process.env.DB_PASSWORD || "postgres",
+  port: process.env.DB_PORT || 5432,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
-module.exports = pool;
+pool.connect((err) => {
+  if (err) {
+    console.error("Connection error", err.stack);
+  } else {
+    console.log("Connected to RDS");
+  }
+});
