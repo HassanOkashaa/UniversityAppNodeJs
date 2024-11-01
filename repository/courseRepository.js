@@ -14,7 +14,7 @@ const CourseRepository = {
     return result.rows[0].id;
   },
   getCourseByID: async (courseID) => {
-    const query = `SELECT * FROM Course;`;
+    const query = `SELECT * FROM Course where id = $1`;
     const result = await pool.query(query, [courseID]);
     if (result.rows.length === 0) {
       return null;

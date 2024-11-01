@@ -3,8 +3,9 @@ const DepartmentService = require("../services/departmentService");
 
 const createCourse = async (req, res) => {
   try {
-    const { name, credits, department_id } = req.body;
-
+    const { name, credits } = req.body;
+    const { id } = req.params;
+    const department_id = parseInt(id);
     if (!name || typeof name !== "string") {
       return res
         .status(400)
