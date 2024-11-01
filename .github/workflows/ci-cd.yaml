@@ -25,9 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-test
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -47,4 +44,3 @@ jobs:
             npm install
             pm2 restart app.js
           EOF
-
