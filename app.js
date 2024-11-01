@@ -21,7 +21,7 @@ app.use("/departments", departmentRoutes);
 app.use("/courses", courseRoutes);
 app.use("/login", authRoutes);
 app.use("/", (req, res) => {
-  return res.json({ Status: "Good" });
+  return res.json({ Status: "Very Good" });
 });
 
 app.use(errorHandler);
