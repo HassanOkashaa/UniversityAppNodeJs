@@ -9,7 +9,8 @@ const createDepartment = async (req, res) => {
         .status(400)
         .json({ message: "Department name is required and must be a string." });
     }
-    const departmentId = await DepartmentService.createDepartment({ name });
+    const departmentId = await DepartmentService.createDepartment(name);
+    console.log(departmentId);
 
     res.status(201).json({ department_id: departmentId });
   } catch (error) {

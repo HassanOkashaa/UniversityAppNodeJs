@@ -2,15 +2,10 @@ const { Pool } = require("pg");
 
 const pool = new Pool({
   user: process.env.DB_USER || "hassan",
-  host:
-    process.env.DB_HOST ||
-    "universitynodeapp.c9iaqc08yess.us-east-1.rds.amazonaws.com",
+  host: process.env.DB_HOST,
   database: process.env.DB_NAME || "universitynodeapp",
   password: process.env.DB_PASSWORD || "postgres",
   port: process.env.DB_PORT || 5432,
-  ssl: {
-    rejectUnauthorized: false,
-  },
 });
 
 pool.connect((err) => {
@@ -20,3 +15,5 @@ pool.connect((err) => {
     console.log("Connected to RDS");
   }
 });
+
+module.exports = pool;

@@ -3,7 +3,7 @@ const pool = require("../config/db");
 const DepartmentRepository = {
   create: async (departmentData) => {
     const query = `INSERT INTO Department (name) VALUES ($1) RETURNING id`;
-    const values = [departmentData.name];
+    const values = [departmentData];
 
     const result = await pool.query(query, values);
 

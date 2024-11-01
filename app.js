@@ -23,7 +23,7 @@ app.use("/courses", courseRoutes);
 app.use("/login", authRoutes);
 app.use("/admins", adminRoutes);
 app.use("/status", (req, res) => {
-  return res.json({ Status: "Very Good" });
+  return res.json({ Status: "Very Bad" });
 });
 
 app.use(errorHandler);
