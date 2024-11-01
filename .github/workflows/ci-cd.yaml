@@ -26,12 +26,6 @@ jobs:
     needs: build-and-test
 
     steps:
-      - name: Debug Secrets
-        run: |
-          echo "Host: ${{ secrets.EC2_HOST }}"
-          echo "User: ${{ secrets.EC2_USER }}"
-          echo "Key: (hidden)"
-
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.1.0
         with:
@@ -39,6 +33,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: |
             ${{ secrets.EC2_KEY }}
+          debug: true
           script: |
             cd app2
             git pull origin main
