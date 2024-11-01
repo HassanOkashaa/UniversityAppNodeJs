@@ -1,12 +1,42 @@
+const CourseService = require("../services/courseService");
 const EnrollmentService = require("../services/enrollmentService");
+const StudentService = require("../services/studentService");
 
 const enrollStudent = async (req, res) => {
   try {
     const { id, courseID } = req.params;
-    if (!id || !courseID) {
+
+    if (!id || isNaN(Number(id)) || !Number.isInteger(Number(id))) {
       return res
         .status(400)
-        .json({ message: "Student ID and Course ID are required" });
+        .json({
+          message: "Student ID is required and must be a valid integer.",
+        });
+    }
+
+    if (
+      !courseID ||
+      isNaN(Number(courseID)) ||
+      !Number.isInteger(Number(courseID))
+    ) {
+      return res
+        .status(400)
+        .json({
+          message: "Course ID is required and must be a valid integer.",
+        });
+    }
+
+    const student = await StudentService.getStudentByID(id);
+    if (!student) {
+      return res
+        .status(404)
+        .json({ message: `Student with ID ${id} not found.` });
+    }
+    const course = await CourseService.getCourseByID(courseID);
+    if (!course) {
+      return res
+        .status(404)
+        .json({ message: `Course with ID ${id} not found.` });
     }
 
     await EnrollmentService.enrollStudentInCourse(id, courseID);

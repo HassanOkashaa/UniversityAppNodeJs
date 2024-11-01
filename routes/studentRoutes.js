@@ -5,11 +5,7 @@ const { authMiddleware } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-router.get(
-  "/",
-  authMiddleware(["Admin", "Professor"]),
-  studentController.getAllStudents
-);
+router.get("/", authMiddleware(["Admin"]), studentController.getAllStudents);
 
 router.post("/", studentController.createStudent);
 

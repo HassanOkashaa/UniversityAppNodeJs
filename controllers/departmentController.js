@@ -4,8 +4,10 @@ const createDepartment = async (req, res) => {
   try {
     const { name } = req.body;
 
-    if (!name) {
-      return res.status(400).json({ message: "Department name is required" });
+    if (!name || typeof name !== "string") {
+      return res
+        .status(400)
+        .json({ message: "Department name is required and must be a string." });
     }
     const departmentId = await DepartmentService.createDepartment({ name });
 

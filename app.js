@@ -4,6 +4,7 @@ const studentRoutes = require("./routes/studentRoutes");
 const departmentRoutes = require("./routes/departmentRoutes");
 const courseRoutes = require("./routes/courseRoutes");
 const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 const errorHandler = require("./middlewares/errorHandler");
 require("dotenv").config();
 
@@ -20,7 +21,8 @@ app.use("/students", studentRoutes);
 app.use("/departments", departmentRoutes);
 app.use("/courses", courseRoutes);
 app.use("/login", authRoutes);
-app.use("/", (req, res) => {
+app.use("/admins", adminRoutes);
+app.use("/status", (req, res) => {
   return res.json({ Status: "Very Good" });
 });
 

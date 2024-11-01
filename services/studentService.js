@@ -44,6 +44,9 @@ const StudentService = {
   getStudentsNotEnrolledInCourses: async () => {
     return await StudentRepository.getStudentsNotEnrolledInCourses();
   },
+  getStudentByID: async (studentID) => {
+    return await StudentRepository.getStudentByID(studentID);
+  },
 };
 
 module.exports = StudentService;

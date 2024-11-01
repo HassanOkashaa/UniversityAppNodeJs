@@ -58,7 +58,7 @@ const ProfessorRepository = {
 
   getProfessorByID: async (professorID) => {
     const query = `
-      SELECT pr.id, pr.specialization, p.id, p.username, p.password, p.name, p.dateOfBirth, p.address 
+      SELECT pr.id as id, pr.specialization, p.id as userID, p.username, p.name, p.dateOfBirth, p.address 
       FROM Professor pr
       JOIN Person p ON pr.personID = p.id
       WHERE pr.id = $1;

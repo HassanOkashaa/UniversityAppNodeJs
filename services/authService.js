@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const PersonRepository = require("../repository/personRepository");
 const ProfessorRepository = require("../repository/professorRepository");
 const StudentRepository = require("../repository/studentRepository");
+const AdminRepository = require("../repository/adminRepository");
 
 const jwtSecret = process.env.JWT_SECRET || "Lasting-Dynamics";
 
@@ -28,6 +29,10 @@ const AuthService = {
     const isStudent = await StudentRepository.getByPersonID(user.id);
     if (isStudent) {
       userType = "Student";
+    }
+    const isAdmin = await AdminRepository.getByPersonID(user.id);
+    if (isAdmin) {
+      userType = "Admin";
     }
 
     if (!userType) {

@@ -15,7 +15,7 @@ const DepartmentRepository = {
     const result = await pool.query(query, [departmentId]);
 
     if (result.rows.length === 0) {
-      throw new Error("Department not found");
+      return null;
     }
 
     return result.rows[0];

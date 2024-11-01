@@ -62,6 +62,9 @@ const ProfessorService = {
     await ProfessorRepository.deleteProfessorByID(personID);
   },
 
+  getProfessorByID: async (professorID) => {
+    return await ProfessorRepository.getProfessorByID(professorID);
+  },
   getProfessorByPersonID: async (personID) => {
     return await ProfessorRepository.getProfessorByPersonID(personID);
   },

@@ -13,6 +13,14 @@ const CourseRepository = {
 
     return result.rows[0].id;
   },
+  getCourseByID: async (courseID) => {
+    const query = `SELECT * FROM Course;`;
+    const result = await pool.query(query, [courseID]);
+    if (result.rows.length === 0) {
+      return null;
+    }
+    return result.rows[0];
+  },
 };
 
 module.exports = CourseRepository;

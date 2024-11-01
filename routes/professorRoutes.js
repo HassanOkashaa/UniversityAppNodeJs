@@ -5,9 +5,21 @@ const { authMiddleware } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 router.post("/", professorController.createProfessor);
-router.patch("/:id", professorController.updateProfessorSpecialization);
-router.delete("/:id", professorController.deleteProfessor);
-router.get("/:id", professorController.getProfessorByPersonID);
+router.patch(
+  "/:id",
+  authMiddleware(["Professor", "Admin"]),
+  professorController.updateProfessorSpecialization
+);
+router.delete(
+  "/:id",
+  authMiddleware(["Professor", "Admin"]),
+  professorController.deleteProfessor
+);
+router.get(
+  "/:id",
+  authMiddleware(["Admin"]),
+  professorController.getProfessorByID
+);
 router.get(
   "/:id/students",
   authMiddleware(["Professor", "Admin"]),
@@ -15,6 +27,7 @@ router.get(
 );
 router.post(
   "/:id/courses/:courseID",
+  authMiddleware(["Professor", "Admin"]),
   professorController.assignCourseToProfessor
 );
 

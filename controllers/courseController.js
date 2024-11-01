@@ -1,22 +1,39 @@
 const CourseService = require("../services/courseService");
+const DepartmentService = require("../services/departmentService");
 
 const createCourse = async (req, res) => {
   try {
     const { name, credits, department_id } = req.body;
 
-    if (!name) {
-      return res.status(400).json({ message: "Course name is required." });
+    if (!name || typeof name !== "string") {
+      return res
+        .status(400)
+        .json({ message: "Course name is required and must be a string." });
     }
 
-    if (!credits || isNaN(credits) || credits <= 0) {
+    if (
+      !credits ||
+      typeof credits !== "number" ||
+      isNaN(credits) ||
+      credits <= 0
+    ) {
       return res
         .status(400)
         .json({ message: "Credits must be a positive number." });
     }
-    if (!department_id) {
-      return res.status(400).json({ message: "Department ID is required." });
+
+    if (!department_id || !Number.isInteger(department_id)) {
+      return res
+        .status(400)
+        .json({ message: "Department ID is required and must be an integer." });
     }
 
+    const department = await DepartmentService.getDepartmentById(department_id);
+    if (!department) {
+      return res
+        .status(404)
+        .json({ message: `Department with ID ${department_id} not found.` });
+    }
     const courseId = await CourseService.createCourse({
       name,
       credits,
