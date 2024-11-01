@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-schema
+data:
+  init.sql: |
+    CREATE TYPE specialization AS ENUM (
+        'Computer Science',
+        'Mathematics',
+        'Physics',
+        'Chemistry',
+        'Biology',
+        'Engineering',
+        'Economics',
+        'Literature',
+        'History',
+        'Philosophy'
+    );
+
+    CREATE TABLE Department (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL
+    );
+
+    CREATE TABLE Person (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(100) UNIQUE NOT NULL,
+        password VARCHAR(100) NOT NULL,
+        name VARCHAR(100) NOT NULL,
+        dateOfBirth DATE NOT NULL,
+        address VARCHAR(100) NOT NULL
+    );
+
+    CREATE TABLE Student (
+        id SERIAL PRIMARY KEY,
+        personID INT REFERENCES Person(id),
+        gpa NUMERIC(3, 2)
+    );
+
+    CREATE TABLE Professor (
+        id SERIAL PRIMARY KEY,
+        personID INT REFERENCES Person(id),
+        email VARCHAR(255) UNIQUE NOT NULL,
+        specialization specialization
+    );
+
+    CREATE TABLE Admin (
+        id SERIAL PRIMARY KEY,
+        personID INT REFERENCES Person(id)
+    );
+
+    CREATE TABLE Course (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        credits INT NOT NULL,
+        departmentID INT REFERENCES Department(id)
+    );
+
+    CREATE TABLE Classroom (
+        id SERIAL PRIMARY KEY,
+        location VARCHAR(100) NOT NULL,
+        capacity INT NOT NULL
+    );
+
+    CREATE TABLE Course_Classroom (
+        courseID INT REFERENCES Course(id),
+        classroomID INT REFERENCES Classroom(id),
+        scheduleTime TIMESTAMP NOT NULL,
+        PRIMARY KEY (courseID, classroomID, scheduleTime)
+    );
+
+    CREATE TABLE Professor_Course (
+        professorID INT REFERENCES Professor(id) ON DELETE CASCADE,
+        courseID INT REFERENCES Course(id) ON DELETE CASCADE,
+        PRIMARY KEY (professorID, courseID)
+    );
+
+    CREATE TABLE Enrollment (
+        studentID INT REFERENCES Student(id),
+        courseID INT REFERENCES Course(id),
+        grade NUMERIC(3, 2),
+        dateEnrolled DATE NOT NULL,
+        PRIMARY KEY (studentID, courseID)
+    );
