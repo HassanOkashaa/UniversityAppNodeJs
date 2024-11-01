@@ -35,10 +35,17 @@ jobs:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_KEY: ${{ secrets.EC2_KEY }}
         run: |
+          # Write the private key to a temporary file
           echo "$EC2_KEY" > /tmp/ec2_key.pem
+
+          # Set permissions to ensure the key is usable
           chmod 600 /tmp/ec2_key.pem
+
+          # Test SSH connection with debug information
+          ssh -o StrictHostKeyChecking=no -i /tmp/ec2_key.pem $EC2_USER@$EC2_HOST "echo 'SSH connection successful'"
+
+          # Deploy commands
           ssh -o StrictHostKeyChecking=no -i /tmp/ec2_key.pem $EC2_USER@$EC2_HOST << 'EOF'
-            echo "SSH connection successful"
             cd /home/ubuntu/app
             git pull origin main
             npm install
